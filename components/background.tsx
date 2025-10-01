@@ -6,9 +6,5 @@ type BackgroundProps = {
 };
 
 export default function Background({ children }: BackgroundProps) {
-  return (
-    <View className="flex-1 items-center justify-center bg-[#221C3D]">
-      {children}
-    </View>
-  );
+  return <View className="flex-1 bg-[#221C3D]">{children}</View>;
 }
