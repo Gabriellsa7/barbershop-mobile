@@ -15,13 +15,13 @@ export default function Index() {
             className="bg-[#8162FF] px-28 py-5 rounded-xl hover:bg-[#9378fe]"
             onPress={() => router.push("/signin")}
           >
-            <Text className="text-white">Sign In</Text>
+            <Text className="text-white font-bold">Sign In</Text>
           </Pressable>
           <Pressable
             className="bg-[#8162FF] px-28 py-5 rounded-xl"
             onPress={() => router.push("/signup")}
           >
-            <Text className="text-white">Sign Up</Text>
+            <Text className="text-white font-bold">Sign Up</Text>
           </Pressable>
         </View>
       </View>
