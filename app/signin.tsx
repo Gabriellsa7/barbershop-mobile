@@ -13,31 +13,25 @@ import {
 import Background from "@/components/background";
 import Input from "@/components/input";
 import Title from "@/components/title";
+import { useAuth } from "@/contexts/auth-context";
 import { useRouter } from "expo-router";
 
 export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
+  const { login } = useAuth();
 
   const handleLogin = async () => {
+    setErrorMessage("");
     try {
-      const response = await fetch("http://10.1.73.233:3000/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        console.log("✅ Login successful:", data);
-        router.replace("/(tabs)/home");
-      } else {
-        console.log("❌ Login failed:", data.error);
-      }
-    } catch (error) {
-      console.error("Network error:", error);
+      const loggedUser = await login(email, password);
+      console.log("✅ Login successful:", loggedUser.name);
+      router.replace("/(tabs)/home");
+    } catch (error: any) {
+      console.error("❌ Network error:", error);
+      setErrorMessage(error.message || "Invalid email or password");
     }
   };
 
@@ -74,6 +68,11 @@ export default function Signin() {
                 secureTextEntry
               />
             </View>
+
+            {/* 🔴 Mensagem de erro */}
+            {errorMessage ? (
+              <Text className="text-red-500 mt-3">{errorMessage}</Text>
+            ) : null}
 
             {/* Forgot password */}
             <View className="items-end w-full mt-3">
