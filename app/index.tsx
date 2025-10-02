@@ -1,6 +1,6 @@
 import Background from "@/components/background";
 import { router } from "expo-router";
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
   return (
@@ -11,18 +11,18 @@ export default function Index() {
           className="w-430 h-932 mb-4"
         />
         <View className="flex-col gap-6 py-5">
-          <Pressable
+          <TouchableOpacity
             className="bg-[#8162FF] px-28 py-5 rounded-xl hover:bg-[#9378fe]"
             onPress={() => router.push("/signin")}
           >
             <Text className="text-white font-bold">Sign In</Text>
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity
             className="bg-[#8162FF] px-28 py-5 rounded-xl"
             onPress={() => router.push("/signup")}
           >
             <Text className="text-white font-bold">Sign Up</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
     </Background>
