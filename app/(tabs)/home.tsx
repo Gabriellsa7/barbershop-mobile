@@ -58,8 +58,8 @@ export default function Home() {
             icon={require("../../assets/icons/razordoubleedge.png")}
           />
           <CategoryButton
-            title="Por outro"
-            // icon={require("../../assets/icons/hairdryer.png")}
+            title="Sobrancelha"
+            icon={require("../../assets/icons/mingcute_eyebrow.png")}
           />
         </ScrollView>
         <View className="pb-4">
