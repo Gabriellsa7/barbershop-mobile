@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Login
   const login = async (email: string, password: string) => {
-    const response = await fetch("http://10.1.73.213:3000/api/login", {
+    const response = await fetch("http://192.168.0.7:3000/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
