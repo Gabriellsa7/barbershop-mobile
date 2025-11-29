@@ -6,6 +6,7 @@ type User = {
   id: string;
   name: string;
   email: string;
+  barbershopId?: string[];
 };
 
 type AuthContextProps = {
@@ -22,22 +23,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  // Load saved section
+  // Load saved user
   useEffect(() => {
     const loadUser = async () => {
       try {
-        const storedUsers = await AsyncStorage.getItem("users");
-        if (storedUsers) {
-          const users: User[] = JSON.parse(storedUsers);
+        const storedUser = await AsyncStorage.getItem("user");
 
-          // If want, you can storage the last signed
-          const lastUser = users[users.length - 1];
-          if (lastUser) {
-            setUser(lastUser);
-            router.replace("/(tabs)/home");
-          } else {
-            router.replace("/");
-          }
+        if (storedUser) {
+          const parsedUser: User = JSON.parse(storedUser);
+          setUser(parsedUser);
+          router.replace("/(tabs)/home");
         } else {
           router.replace("/");
         }
@@ -52,7 +47,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Login
   const login = async (email: string, password: string) => {
-    const response = await fetch("http://192.168.0.7:3000/api/login", {
+    const response = await fetch("http://192.168.0.14:3001/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -60,22 +55,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const data = await response.json();
     if (response.ok) {
-      // Searching for saved users
       const user: User = data.user;
+
       await AsyncStorage.setItem("user", JSON.stringify(user));
       setUser(user);
+
       router.replace("/(tabs)/home");
       return user;
-      // const storedUsers = await AsyncStorage.getItem("users");
-      // const users: User[] = storedUsers ? JSON.parse(storedUsers) : [];
-
-      // // Replace if id already exists
-      // const updatedUsers = [...users.filter((u) => u.id !== data.id), data];
-
-      // await AsyncStorage.setItem("users", JSON.stringify(updatedUsers));
-      // setUser(data);
-      // router.replace("/(tabs)/home");
-      // return data;
     } else {
       throw new Error(data.error || "Login failed");
     }
@@ -83,12 +69,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Logout
   const logout = async () => {
-    const storedUsers = await AsyncStorage.getItem("users");
-    const users: User[] = storedUsers ? JSON.parse(storedUsers) : [];
-
-    const updatedUsers = users.filter((u) => u.id !== user?.id);
-
-    await AsyncStorage.setItem("users", JSON.stringify(updatedUsers));
+    await AsyncStorage.removeItem("user");
     setUser(null);
     router.replace("/");
   };
