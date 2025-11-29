@@ -29,10 +29,14 @@ export default function Home() {
         <View className="flex-row items-center justify-between gap-3 pt-6 pb-3">
           <TextInput
             placeholder="Search for a barber"
-            className="bg-[#1A1B1F] rounded-xl py-4 px-4 w-[85%] "
+            className="bg-[#1A1B1F] rounded-xl py-3 px-4 w-[85%] placeholder:text-white"
           />
           <TouchableOpacity>
-            <Image source={require("../../assets/search.png")} />
+            <Image
+              width={50}
+              height={50}
+              source={require("../../assets/search.png")}
+            />
           </TouchableOpacity>
         </View>
         <ScrollView

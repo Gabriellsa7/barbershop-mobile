@@ -6,15 +6,15 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#8162FF", // Active Color (purple-500)
-        tabBarInactiveTintColor: "#FFFFFF", // Inactiver Color (white)
+        tabBarActiveTintColor: "#8162FF",
+        tabBarInactiveTintColor: "#FFFFFF",
         tabBarStyle: {
           display: "flex",
           height: 70,
           paddingBottom: 10,
           paddingTop: 10,
-          backgroundColor: "#141518", // Background Color (gray-900)
-          borderTopColor: "#4b5563", // Border Color (gray-700)
+          backgroundColor: "#141518",
+          borderTopColor: "#4b5563",
           borderTopWidth: 2,
         },
       }}

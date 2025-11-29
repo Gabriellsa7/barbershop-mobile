@@ -1,5 +1,5 @@
 import { useAuth } from "@/contexts/auth-context";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -9,51 +9,59 @@ import {
   View,
 } from "react-native";
 
-// 👇 Definindo o tipo dos dados que vêm do backend
 type Barbershop = {
   id: string;
   name: string;
   address: string;
-  image_url: string;
+  image_url?: string | null;
   rating?: number;
 };
 
-export default function ListBarbershop() {
+interface ListBarbershopProps {
+  refreshTrigger?: number;
+}
+
+export default function ListBarbershop({
+  refreshTrigger,
+}: ListBarbershopProps) {
   const [listBarbershop, setListBarbershop] = useState<Barbershop[]>([]);
   const [loading, setLoading] = useState(true);
   const [isOwner, setIsOwner] = useState(false);
 
   const { user } = useAuth();
 
-  useEffect(() => {
-    const fetchBarbershops = async () => {
-      if (!user) return;
+  const BASE_URL = "http://192.168.0.14:3001";
 
-      try {
-        const responseOwner = await fetch(
-          `http://192.168.0.14:3001/api/barbershop/owner/${user.id}`
-        );
-        const barbershopsOwner: Barbershop[] = await responseOwner.json();
+  const fetchBarbershops = useCallback(async () => {
+    if (!user) return;
 
-        if (barbershopsOwner.length > 0) {
-          setListBarbershop(barbershopsOwner);
-          setIsOwner(true);
-        } else {
-          const responseAll = await fetch(
-            `http://192.168.0.14:3001/api/barbershop`
-          );
-          const all: Barbershop[] = await responseAll.json();
-          setListBarbershop(all);
-        }
-      } catch (error) {
-        console.error("Erro ao buscar barbearias:", error);
-      } finally {
-        setLoading(false);
+    setLoading(true);
+    try {
+      // Busca barbearias do owner
+      const ownerRes = await fetch(
+        `${BASE_URL}/api/barbershop/owner/${user.id}`
+      );
+      const ownerList: Barbershop[] = await ownerRes.json();
+
+      if (ownerList.length > 0) {
+        setListBarbershop(ownerList);
+        setIsOwner(true);
+      } else {
+        const allRes = await fetch(`${BASE_URL}/api/barbershop`);
+        const allList: Barbershop[] = await allRes.json();
+        setListBarbershop(allList);
+        setIsOwner(false);
       }
-    };
-
-    fetchBarbershops();
+    } catch (error) {
+      console.error("Erro ao buscar barbearias:", error);
+    } finally {
+      setLoading(false);
+    }
   }, [user]);
+
+  useEffect(() => {
+    fetchBarbershops();
+  }, [fetchBarbershops, refreshTrigger]);
 
   if (loading) {
     return (
@@ -69,21 +77,30 @@ export default function ListBarbershop() {
         Barbearias Disponíveis
       </Text>
 
-      <View className="flex-row flex-wrap gap-2">
+      <View className="flex-row flex-wrap ">
         {listBarbershop.map((barber) => (
           <View
             key={barber.id}
             className="bg-zinc-900 rounded-2xl mb-6 overflow-hidden"
             style={{
-              flex: 1,
-              width: "50%",
-              alignSelf: listBarbershop.length === 1 ? "center" : "auto",
+              width: "100%",
+              alignSelf: "center",
             }}
           >
-            <Image
-              source={{ uri: barber.image_url }}
-              style={{ width: "100%", height: 130 }}
-            />
+            {barber.image_url ? (
+              <Image
+                source={{ uri: barber.image_url }}
+                style={{ width: "100%", height: 130 }}
+                resizeMode="cover"
+                onError={() =>
+                  console.log("Erro ao carregar imagem:", barber.image_url)
+                }
+              />
+            ) : (
+              <View className="w-full h-32 bg-zinc-800 justify-center items-center">
+                <Text className="text-zinc-500 text-sm">Sem imagem</Text>
+              </View>
+            )}
 
             <View className="p-3">
               <View className="flex-row items-center mb-1">
@@ -102,25 +119,17 @@ export default function ListBarbershop() {
               <Text className="text-zinc-400 text-xs mt-1">
                 {barber.address}
               </Text>
-              {isOwner ? (
-                <TouchableOpacity
-                  className="bg-zinc-800 mt-3 py-2 rounded-lg"
-                  onPress={() => console.log("See", barber.name)}
-                >
-                  <Text className="text-center text-white text-sm font-medium">
-                    See
-                  </Text>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  className="bg-zinc-800 mt-3 py-2 rounded-lg"
-                  onPress={() => console.log("Reservar", barber.name)}
-                >
-                  <Text className="text-center text-white text-sm font-medium">
-                    Reservar
-                  </Text>
-                </TouchableOpacity>
-              )}
+
+              <TouchableOpacity
+                className="bg-zinc-800 mt-3 py-2 rounded-lg"
+                onPress={() =>
+                  console.log(isOwner ? "See" : "Reservar", barber.name)
+                }
+              >
+                <Text className="text-center text-white text-sm font-medium">
+                  {isOwner ? "See" : "Reservar"}
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         ))}

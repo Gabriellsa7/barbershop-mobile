@@ -2,18 +2,30 @@ import Background from "@/components/background";
 import ListBarbershop from "@/components/list-barbershop";
 import { useState } from "react";
 import { Modal, Text, TouchableOpacity, View } from "react-native";
+import BarbershopModal from "./components/barbershop-modal";
 
 export default function Barbershop() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  const handleModal = () => setIsModalOpen(true);
+  const handleModal = () => {
+    if (isModalOpen) {
+      setIsModalOpen(false);
+    } else {
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleRefresh = () => {
+    setRefreshTrigger((prev) => prev + 1);
+  };
 
   return (
     <>
       <Background>
-        <View className="flex-1">
+        <View className="flex-1 ">
           <View className="flex-1">
-            <ListBarbershop />
+            <ListBarbershop refreshTrigger={refreshTrigger} />
           </View>
           <View className="mx-4">
             <TouchableOpacity
@@ -35,23 +47,10 @@ export default function Barbershop() {
           visible={isModalOpen}
           onRequestClose={() => setIsModalOpen(false)}
         >
-          <View
-            className="flex-1 justify-center items-center"
-            style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-          >
-            <View className="bg-zinc-900 p-6 rounded-xl w-11/12 max-w-sm">
-              <Text className="text-white text-lg font-semibold mb-4">
-                Add BarberShop
-              </Text>
-
-              <TouchableOpacity
-                className="bg-purple-500 py-2 rounded-lg mt-3"
-                onPress={() => setIsModalOpen(false)}
-              >
-                <Text className="text-center text-white">Fechar</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          <BarbershopModal
+            HandleModal={handleModal}
+            onSuccess={handleRefresh}
+          />
         </Modal>
       )}
     </>
