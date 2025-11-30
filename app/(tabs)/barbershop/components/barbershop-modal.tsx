@@ -28,13 +28,13 @@ export default function BarbershopModal({
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const BASE_URL = "http://192.168.0.14:3001";
+  const BASE_URL = "http://192.168.0.17:3001";
 
   const pickImage = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (permission.status !== "granted") {
-      Alert.alert("Permissão necessária", "Permita acesso às suas fotos.");
+      Alert.alert("Permission required", "Allow access to your photos.");
       return;
     }
 
@@ -75,19 +75,19 @@ export default function BarbershopModal({
 
       return url;
     } catch (e) {
-      console.error("Erro no upload:", e);
+      console.error("Upload error:", e);
       return null;
     }
   };
 
   const handleConfirm = async () => {
     if (!name.trim() || !address.trim()) {
-      Alert.alert("Erro", "Nome e endereço são obrigatórios!");
+      Alert.alert("Error", "Name and address are required!");
       return;
     }
 
     if (!user) {
-      Alert.alert("Erro", "Usuário não autenticado!");
+      Alert.alert("Error", "User not authenticated!");
       return;
     }
 
@@ -117,11 +117,11 @@ export default function BarbershopModal({
       const data = await response.json();
 
       if (!response.ok) {
-        Alert.alert("Erro", data.error || "Erro ao criar barbearia");
+        Alert.alert("Error", data.error || "Error creating barbershop");
         return;
       }
 
-      Alert.alert("Sucesso", "Barbearia criada!", [
+      Alert.alert("Success", "Barbershop created!", [
         {
           text: "OK",
           onPress: () => {
@@ -136,7 +136,7 @@ export default function BarbershopModal({
       ]);
     } catch (err) {
       console.error(err);
-      Alert.alert("Erro", "Erro ao criar barbearia.");
+      Alert.alert("Error", "Error creating barbershop.");
     } finally {
       setLoading(false);
     }
