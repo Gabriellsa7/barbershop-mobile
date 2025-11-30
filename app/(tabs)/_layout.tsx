@@ -27,7 +27,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="barbershop/index"
+        name="barbershop"
         options={{
           title: "Barbershop",
           tabBarIcon: ({ color, size }) => <Store color={color} size={size} />,

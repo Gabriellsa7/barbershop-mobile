@@ -2,7 +2,7 @@ import Background from "@/components/background";
 import ListBarbershop from "@/components/list-barbershop";
 import { useState } from "react";
 import { Modal, Text, TouchableOpacity, View } from "react-native";
-import BarbershopModal from "./components/barbershop-modal";
+import BarbershopModal from "../../components/barbershop-modal";
 
 export default function Barbershop() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
