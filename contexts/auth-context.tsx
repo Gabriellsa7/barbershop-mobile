@@ -7,12 +7,14 @@ type User = {
   name: string;
   email: string;
   barbershopId?: string[];
+  imageUrl?: string | null;
 };
 
 type AuthContextProps = {
   user: User | null;
   login: (email: string, password: string) => Promise<User>;
   logout: () => Promise<void>;
+  updateUser: (updated: Partial<User>) => Promise<void>;
   loading: boolean;
 };
 
@@ -67,6 +69,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // Update user globally (important!)
+  const updateUser = async (updated: Partial<User>) => {
+    if (!user) return;
+
+    const newUser = { ...user, ...updated };
+
+    setUser(newUser);
+    await AsyncStorage.setItem("user", JSON.stringify(newUser));
+  };
+
   // Logout
   const logout = async () => {
     await AsyncStorage.removeItem("user");
@@ -75,7 +87,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, updateUser, loading }}>
       {children}
     </AuthContext.Provider>
   );
