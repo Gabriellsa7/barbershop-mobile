@@ -26,7 +26,8 @@ export default function EditProfileModal({
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const BASE_URL = "http://192.168.0.17:3001";
+  const BASE_URL = "http://192.168.0.14:3001";
+  // const BASE_URL = "http://192.168.0.17:3001";
 
   const pickImage = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -79,10 +80,10 @@ export default function EditProfileModal({
   };
 
   const handleConfirm = async () => {
-    if (!name.trim()) {
-      Alert.alert("Error", "Name and address are required!");
-      return;
-    }
+    // if (!name.trim()) {
+    //   Alert.alert("Error", "Name are required!");
+    //   return;
+    // }
 
     if (!user) {
       Alert.alert("Error", "User not authenticated!");
