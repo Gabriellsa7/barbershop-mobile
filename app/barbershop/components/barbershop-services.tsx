@@ -31,13 +31,7 @@ export default function BarbershopServices({ barbershopId }: Props) {
     );
   }
 
-  if (!services || services.length === 0) {
-    return (
-      <View className="py-6 px-5">
-        <Text className="text-red-500">Service not Found</Text>
-      </View>
-    );
-  }
+  const isEmpty = !services || services.length === 0;
 
   const handleModal = () => {
     if (isOpen) {
@@ -54,40 +48,47 @@ export default function BarbershopServices({ barbershopId }: Props) {
   return (
     <View className="flex-1">
       <ScrollView className="py-6 px-5 gap-3">
-        <Text className="text-[#838896]">Services</Text>
+        {isEmpty ? (
+          <Text className="text-red-500">Service not Found</Text>
+        ) : (
+          <Text className="text-[#838896]">Services</Text>
+        )}
         <View className="justify-center items-center relative">
-          {services.map((service) => (
-            <View
-              key={service.id}
-              className="flex-row items-center justify-center gap-3 p-3 max-w-[80%]"
-            >
-              <Image
-                aria-label="BarberShoop image"
-                source={{ uri: service.image_url || undefined }}
-                className="w-[90px] h-[80px] rounded-xl"
-                style={{ resizeMode: "cover" }}
-              />
+          {services &&
+            services.map((service) => (
+              <View
+                key={service.id}
+                className="flex-row items-center justify-center gap-3 p-3 max-w-[80%]"
+              >
+                <Image
+                  aria-label="BarberShoop image"
+                  source={{ uri: service.image_url || undefined }}
+                  className="w-[90px] h-[80px] rounded-xl"
+                  style={{ resizeMode: "cover" }}
+                />
 
-              <View className="gap-4 w-[80%]">
-                <View className="gap-2">
-                  <Text className="text-white text-sm font-bold">
-                    {service.name}
-                  </Text>
-                  <Text className="text-[#838896]">{service.description}</Text>
-                </View>
-                <View className="flex-row justify-between items-center">
-                  <Text className="text-[#8162FF] font-bold">
-                    R$ {service.price}
-                  </Text>
-                  <TouchableOpacity className="bg-[#26272B] py-3 px-8 rounded-xl">
+                <View className="gap-4 w-[80%]">
+                  <View className="gap-2">
                     <Text className="text-white text-sm font-bold">
-                      Resevar
+                      {service.name}
                     </Text>
-                  </TouchableOpacity>
+                    <Text className="text-[#838896]">
+                      {service.description}
+                    </Text>
+                  </View>
+                  <View className="flex-row justify-between items-center">
+                    <Text className="text-[#8162FF] font-bold">
+                      R$ {service.price}
+                    </Text>
+                    <TouchableOpacity className="bg-[#26272B] py-3 px-8 rounded-xl">
+                      <Text className="text-white text-sm font-bold">
+                        Resevar
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
-            </View>
-          ))}
+            ))}
         </View>
       </ScrollView>
       <View className="w-full px-3 my-3">
