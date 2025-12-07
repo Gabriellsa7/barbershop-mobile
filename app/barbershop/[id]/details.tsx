@@ -81,7 +81,7 @@ export default function BarbershopDetails() {
         <Text className="text-white text-sm">{barber.description}</Text>
       </View>
       <View className="border-[#26272B] border-[1px]" />
-      <BarbershopServices />
+      <BarbershopServices barbershopId={barber.id} />
     </Background>
   );
 }
