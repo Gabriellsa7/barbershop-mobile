@@ -55,7 +55,7 @@ export default function ListBarbershop({
         setIsOwner(false);
       }
     } catch (error) {
-      console.error("Erro ao buscar barbearias:", error);
+      console.error("Barbershps doesen't found:", error);
     } finally {
       setLoading(false);
     }

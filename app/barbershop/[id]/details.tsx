@@ -59,9 +59,7 @@ export default function BarbershopDetails() {
         />
       </View>
       <View className="p-5 gap-4">
-        <Text className="text-white font-bold text-xl">
-          Nome recebido: {barber.name}
-        </Text>
+        <Text className="text-white font-bold text-xl">{barber.name}</Text>
         <View className="gap-3">
           <View className="flex-row items-center gap-3">
             <MapPinIcon color="#8162FF" size={16} />

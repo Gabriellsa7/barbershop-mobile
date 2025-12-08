@@ -1,6 +1,8 @@
 import BarbershopServiceModal from "@/components/service-modal";
+import { useAuth } from "@/contexts/auth-context";
+import { Barbershop } from "@/hooks/useBarbershop";
 import { useGetBarbershopService } from "@/hooks/useGetBarbershopService";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -22,6 +24,37 @@ export default function BarbershopServices({ barbershopId }: Props) {
     barbershopId,
     refreshTrigger
   );
+  const [isOwner, setIsOwner] = useState(false);
+  const [listBarbershop, setListBarbershop] = useState<Barbershop[]>([]);
+
+  const { user } = useAuth();
+
+  const BASE_URL = "http://192.168.0.17:3001";
+
+  const fetchBarbershops = useCallback(async () => {
+    if (!user) return;
+    try {
+      const ownerRes = await fetch(
+        `${BASE_URL}/api/barbershop/owner/${user.id}`
+      );
+      const ownerList: Barbershop[] = await ownerRes.json();
+
+      if (ownerList.length > 0) {
+        setListBarbershop(ownerList);
+        setIsOwner(true);
+      } else {
+        const allRes = await fetch(`${BASE_URL}/api/barbershop`);
+        const allList: Barbershop[] = await allRes.json();
+        setListBarbershop(allList);
+        setIsOwner(false);
+      }
+    } catch (error) {
+      console.error("Barbershps doesen't found:", error);
+    }
+  }, [user]);
+  useEffect(() => {
+    fetchBarbershops();
+  }, [fetchBarbershops, refreshTrigger]);
 
   if (loading) {
     return (
@@ -91,16 +124,21 @@ export default function BarbershopServices({ barbershopId }: Props) {
             ))}
         </View>
       </ScrollView>
-      <View className="w-full px-3 my-3">
-        <TouchableOpacity
-          className="bg-zinc-800 py-3 rounded-lg items-center fixed"
-          onPress={handleModal}
-        >
-          <Text className="text-center text-white text-sm font-medium">
-            Add BarberShop Service
-          </Text>
-        </TouchableOpacity>
-      </View>
+      {isOwner ? (
+        <View className="w-full px-3 my-3">
+          <TouchableOpacity
+            className="bg-zinc-800 py-3 rounded-lg items-center fixed"
+            onPress={handleModal}
+          >
+            <Text className="text-center text-white text-sm font-medium">
+              Add BarberShop Service
+            </Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        ""
+      )}
+
       {isOpen && (
         <Modal
           transparent={true}
