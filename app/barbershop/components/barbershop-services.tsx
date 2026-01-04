@@ -2,6 +2,7 @@ import BarbershopServiceModal from "@/components/service-modal";
 import { useAuth } from "@/contexts/auth-context";
 import { Barbershop } from "@/hooks/useBarbershop";
 import { useGetBarbershopService } from "@/hooks/useGetBarbershopService";
+import { useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -27,6 +28,10 @@ export default function BarbershopServices({ barbershopId }: Props) {
   const [isOwner, setIsOwner] = useState(false);
   const [listBarbershop, setListBarbershop] = useState<Barbershop[]>([]);
 
+  const router = useRouter();
+
+  console.log(listBarbershop);
+
   const { user } = useAuth();
 
   const BASE_URL = "http://192.168.0.17:3001";
@@ -49,7 +54,7 @@ export default function BarbershopServices({ barbershopId }: Props) {
         setIsOwner(false);
       }
     } catch (error) {
-      console.error("Barbershps doesen't found:", error);
+      console.error("Barbershop Service doesen't found:", error);
     }
   }, [user]);
   useEffect(() => {
@@ -113,9 +118,17 @@ export default function BarbershopServices({ barbershopId }: Props) {
                     <Text className="text-[#8162FF] font-bold">
                       R$ {service.price}
                     </Text>
-                    <TouchableOpacity className="bg-[#26272B] py-3 px-8 rounded-xl">
+                    <TouchableOpacity
+                      onPress={() =>
+                        router.push({
+                          pathname: "/barbershop/[id]/book-appointment",
+                          params: { barbershopId, id: service.id },
+                        })
+                      }
+                      className="bg-[#26272B] py-3 px-8 rounded-xl"
+                    >
                       <Text className="text-white text-sm font-bold">
-                        Resevar
+                        Book Appointment
                       </Text>
                     </TouchableOpacity>
                   </View>
