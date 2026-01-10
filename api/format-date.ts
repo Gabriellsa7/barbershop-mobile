@@ -1,3 +1,4 @@
 export function formatDate(date: string) {
-  return new Date(date).toLocaleDateString("pt-BR");
+  const d = new Date(date);
+  return d.toISOString().split("T")[0];
 }
