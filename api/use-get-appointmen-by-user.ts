@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 
 export interface Appointment {
   id: string;
@@ -29,23 +30,25 @@ export interface Appointment {
   }[];
 }
 
-export function useGetAppointmentByUser(userId?: string) {
+export function useGetAppointmentByUser() {
   const [data, setData] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchAppointments() {
-      const res = await fetch("http://192.168.0.17:3001/api/appointment/me", {
-        credentials: "include",
-      });
+  const fetchAppointments = async () => {
+    setLoading(true);
+    const res = await fetch("http://192.168.0.17:3001/api/appointment/me", {
+      credentials: "include",
+    });
+    const json = await res.json();
+    setData(json);
+    setLoading(false);
+  };
 
-      const json = await res.json();
-      setData(json);
-      setLoading(false);
-    }
-
-    fetchAppointments();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchAppointments();
+    }, [])
+  );
 
   return { data, loading };
 }

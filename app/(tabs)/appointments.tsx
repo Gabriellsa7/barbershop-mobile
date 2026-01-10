@@ -2,12 +2,10 @@ import { formatDate } from "@/api/format-date";
 import { useGetAppointmentByUser } from "@/api/use-get-appointmen-by-user";
 import Background from "@/components/background";
 import Title from "@/components/title";
-import { useAuth } from "@/contexts/auth-context";
 import { Text, View } from "react-native";
 
 export default function Appointments() {
-  const { user } = useAuth();
-  const { data, loading } = useGetAppointmentByUser(user?.id);
+  const { data, loading } = useGetAppointmentByUser();
 
   if (loading) {
     return (
