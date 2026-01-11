@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import Toast from "react-native-toast-message";
 
 interface BarberShopProps {
   HandleModal: () => void;
@@ -121,19 +122,19 @@ export default function BarbershopModal({
         return;
       }
 
-      Alert.alert("Success", "Barbershop created!", [
-        {
-          text: "OK",
-          onPress: () => {
-            setName("");
-            setDescription("");
-            setAddress("");
-            setImageUri(null);
-            HandleModal();
-            onSuccess && onSuccess();
-          },
-        },
-      ]);
+      Toast.show({
+        type: "success",
+        text1: "Barbershop criada 🎉",
+        text2: "Sua barbearia foi adicionada com sucesso",
+        position: "top",
+      });
+
+      setName("");
+      setDescription("");
+      setAddress("");
+      setImageUri(null);
+      HandleModal();
+      onSuccess && onSuccess();
     } catch (err) {
       console.error(err);
       Alert.alert("Error", "Error creating barbershop.");
