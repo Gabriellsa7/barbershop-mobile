@@ -77,7 +77,13 @@ export default function BookAppointment() {
       serviceIds: [serviceId],
     });
 
-    router.back();
+    router.replace({
+      pathname: "/barbershop/[id]/details",
+      params: {
+        id: barbershopId,
+        success: "true",
+      },
+    });
   };
 
   return (
