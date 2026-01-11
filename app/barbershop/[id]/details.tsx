@@ -1,7 +1,8 @@
 import Background from "@/components/background";
 import { useBarbershop } from "@/hooks/useBarbershop";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import { ChevronLeft, MapPinIcon, StarIcon } from "lucide-react-native";
+import { useCallback } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -9,13 +10,28 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import Toast from "react-native-toast-message";
 import BarbershopServices from "../components/barbershop-services";
 
 export default function BarbershopDetails() {
   const { id } = useLocalSearchParams();
   const { data: barber, loading } = useBarbershop(id as string);
 
+  const params = useLocalSearchParams();
   const router = useRouter();
+
+  useFocusEffect(
+    useCallback(() => {
+      if (params.success === "true") {
+        Toast.show({
+          type: "success",
+          text1: "Agendamento criado!",
+          text2: "Seu horário foi reservado com sucesso",
+        });
+        router.setParams({ success: undefined });
+      }
+    }, [params.success, router])
+  );
 
   const handleBack = () => {
     router.back();
