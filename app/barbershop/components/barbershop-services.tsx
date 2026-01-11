@@ -120,7 +120,7 @@ export default function BarbershopServices({ barbershopId }: Props) {
                     </Text>
                     <TouchableOpacity
                       onPress={() =>
-                        router.push({
+                        router.replace({
                           pathname: "/barbershop/[id]/book-appointment",
                           params: { barbershopId, id: service.id },
                         })
