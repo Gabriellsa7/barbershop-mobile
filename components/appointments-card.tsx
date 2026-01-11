@@ -1,3 +1,5 @@
+import { getDay } from "@/api/get-day";
+import { getMonthName } from "@/api/get-month-name";
 import { Image, Text, View } from "react-native";
 
 interface AppointementsCardProps {
@@ -6,6 +8,7 @@ interface AppointementsCardProps {
   name: string;
   avatarUrl?: string | null;
   date: Date | any;
+  startTime?: string;
 }
 
 export default function AppointementsCard({
@@ -14,13 +17,16 @@ export default function AppointementsCard({
   name,
   avatarUrl,
   date,
+  startTime,
 }: AppointementsCardProps) {
   return (
-    <View>
-      <View>
-        <Text>{status}</Text>
-        <Text>{service}</Text>
-        <View>
+    <View className="bg-[#1E1E26] rounded-xl p-4 mb-4 flex-row justify-between items-center w-[330px]">
+      <View className="gap-3">
+        <View className="bg-[#251f42] rounded-full p-1 items-center w-20">
+          <Text className="text-[#8162FF] font-bold">{status}</Text>
+        </View>
+        <Text className="text-white font-bold text-xl">{service}</Text>
+        <View className="flex-row items-center gap-2">
           <Image
             source={
               avatarUrl ? { uri: avatarUrl } : require("@/assets/favicon.png")
@@ -29,11 +35,16 @@ export default function AppointementsCard({
             height={32}
             className="rounded-full"
           />
-          <Text>{name}</Text>
+          <Text className="text-white text-lg">{name}</Text>
         </View>
       </View>
-      <View>
-        <Text>{date}</Text>
+      <View className="w-px h-full bg-[#2F2F3A] mx-4" />
+      <View className="items-center gap-1 w-20">
+        <Text className="text-[#838896]">{getMonthName(date)}</Text>
+
+        <Text className="text-white text-3xl font-bold">{getDay(date)}</Text>
+
+        <Text className="text-[#838896]">{startTime}</Text>
       </View>
     </View>
   );

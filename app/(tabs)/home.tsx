@@ -75,32 +75,44 @@ export default function Home() {
             className="w-full h-40 rounded-xl mt-4"
           />
         </View>
-        <View className="pb-4">
+        <View className="pb-4 gap-3">
           <Text className="text-[#838896] text-xl font-bold">
             Appointements
           </Text>
-          {appointmentsData.length === 0 ? (
-            <Text className="text-white mt-2">Nenhum agendamento</Text>
-          ) : (
-            appointmentsData.map((appointment) => {
-              const services = appointment.appointmentservice;
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              gap: 12,
+              paddingVertical: 8,
+            }}
+          >
+            {appointmentsData.length === 0 ? (
+              <Text className="text-white mt-2">Nenhum agendamento</Text>
+            ) : (
+              appointmentsData.map((appointment) => {
+                const services = appointment.appointmentservice;
 
-              return (
-                <AppointementsCard
-                  key={appointment.id}
-                  name={appointment.barbershop.name}
-                  avatarUrl={services[0]?.service.image_url || null}
-                  date={`${appointment.date} ${appointment.startTime}`}
-                  service={
-                    services.length > 0
-                      ? services.map((s) => s.service.name).join(", ")
-                      : "Serviço não informado"
-                  }
-                  status={appointment.status}
-                />
-              );
-            })
-          )}
+                return (
+                  <AppointementsCard
+                    key={appointment.id}
+                    name={appointment.barbershop.name}
+                    avatarUrl={appointment.barbershop.image_url}
+                    date={`${appointment.date.split("T")[0]}T${
+                      appointment.startTime
+                    }:00`}
+                    startTime={appointment.startTime}
+                    service={
+                      services.length > 0
+                        ? services.map((s) => s.service.name).join(", ")
+                        : "Serviço não informado"
+                    }
+                    status={appointment.status}
+                  />
+                );
+              })
+            )}
+          </ScrollView>
         </View>
         <View className="pb-4">
           <Text className="text-[#838896] text-xl font-bold">Recommended</Text>
