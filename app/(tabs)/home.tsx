@@ -1,3 +1,5 @@
+import { useGetAppointmentByUser } from "@/api/use-get-appointmen-by-user";
+import AppointementsCard from "@/components/appointments-card";
 import Background from "@/components/background";
 import CategoryButton from "@/components/category-button";
 import Header from "@/components/header";
@@ -14,6 +16,7 @@ import {
 
 export default function Home() {
   const { dataAtual } = useDate();
+  const { data: appointmentsData = [] } = useGetAppointmentByUser();
 
   const { user } = useAuth();
   return (
@@ -76,7 +79,28 @@ export default function Home() {
           <Text className="text-[#838896] text-xl font-bold">
             Appointements
           </Text>
-          {/* <AppointementsCard name={} avatarUrl={} date={} service={} status={} /> */}
+          {appointmentsData.length === 0 ? (
+            <Text className="text-white mt-2">Nenhum agendamento</Text>
+          ) : (
+            appointmentsData.map((appointment) => {
+              const services = appointment.appointmentservice;
+
+              return (
+                <AppointementsCard
+                  key={appointment.id}
+                  name={appointment.barbershop.name}
+                  avatarUrl={services[0]?.service.image_url || null}
+                  date={`${appointment.date} ${appointment.startTime}`}
+                  service={
+                    services.length > 0
+                      ? services.map((s) => s.service.name).join(", ")
+                      : "Serviço não informado"
+                  }
+                  status={appointment.status}
+                />
+              );
+            })
+          )}
         </View>
         <View className="pb-4">
           <Text className="text-[#838896] text-xl font-bold">Recommended</Text>

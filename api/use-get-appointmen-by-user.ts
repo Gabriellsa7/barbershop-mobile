@@ -10,7 +10,6 @@ export interface Appointment {
   createdAt: string;
   clientId: string;
   barbershopId: string;
-
   barbershop: {
     id: string;
     name: string;
@@ -23,13 +22,13 @@ export interface Appointment {
     ownerId: string;
     image_url: string | null;
   };
-
   appointmentservice: {
     service: {
       id: string;
       name: string;
       price: number;
       durationMinutes: number;
+      image_url: string | null;
     };
   }[];
 }
@@ -39,13 +38,28 @@ export function useGetAppointmentByUser() {
   const [loading, setLoading] = useState(true);
 
   const fetchAppointments = async () => {
-    setLoading(true);
-    const res = await fetch("http://192.168.0.17:3001/api/appointment/me", {
-      credentials: "include",
-    });
-    const json = await res.json();
-    setData(json);
-    setLoading(false);
+    try {
+      setLoading(true);
+
+      const res = await fetch("http://192.168.0.17:3001/api/appointment/me", {
+        credentials: "include",
+      });
+      if (!res.ok) {
+        setData([]);
+        return;
+      }
+
+      const json = await res.json();
+      if (Array.isArray(json)) {
+        setData(json);
+      } else {
+        setData([]);
+      }
+    } catch {
+      setData([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useFocusEffect(

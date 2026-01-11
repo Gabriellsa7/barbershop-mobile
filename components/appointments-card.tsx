@@ -4,7 +4,7 @@ interface AppointementsCardProps {
   status: any;
   service: string;
   name: string;
-  avatarUrl: any;
+  avatarUrl?: string | null;
   date: Date | any;
 }
 
@@ -22,7 +22,9 @@ export default function AppointementsCard({
         <Text>{service}</Text>
         <View>
           <Image
-            source={avatarUrl}
+            source={
+              avatarUrl ? { uri: avatarUrl } : require("@/assets/favicon.png")
+            }
             width={32}
             height={32}
             className="rounded-full"
@@ -30,7 +32,9 @@ export default function AppointementsCard({
           <Text>{name}</Text>
         </View>
       </View>
-      <View>{date}</View>
+      <View>
+        <Text>{date}</Text>
+      </View>
     </View>
   );
 }
