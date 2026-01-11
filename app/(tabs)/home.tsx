@@ -6,6 +6,7 @@ import Header from "@/components/header";
 import { useAuth } from "@/contexts/auth-context";
 import { useDate } from "@/contexts/date-context";
 import { useRouter } from "expo-router";
+import { Plus } from "lucide-react-native";
 import {
   Image,
   ScrollView,
@@ -79,9 +80,17 @@ export default function Home() {
           />
         </View>
         <View className="pb-4 gap-3">
-          <Text className="text-[#838896] text-xl font-bold">
-            Appointements
-          </Text>
+          <View className="flex-row justify-between">
+            <Text className="text-[#838896] text-xl font-bold">
+              Appointements
+            </Text>
+            <Text
+              onPress={() => router.push("/appointments")}
+              className="font-bold text-lg text-[#8162FF] "
+            >
+              See All
+            </Text>
+          </View>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -119,10 +128,12 @@ export default function Home() {
             )}
             <TouchableOpacity
               onPress={() => router.push("/appointments")}
-              className="w-[60px] h-[60px] rounded-full bg-violet-500 items-center justify-center self-center"
+              className="w-[40px] h-[40px] rounded-lg bg-violet-500 items-center justify-center self-center"
               activeOpacity={0.8}
             >
-              <Text className="text-white text-3xl font-bold">+</Text>
+              <Text className="text-white text-3xl font-bold">
+                <Plus color="white" />
+              </Text>
             </TouchableOpacity>
           </ScrollView>
         </View>
