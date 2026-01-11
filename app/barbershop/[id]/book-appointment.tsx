@@ -90,7 +90,12 @@ export default function BookAppointment() {
     <Background>
       <View className="relative">
         <TouchableOpacity
-          onPress={() => router.back()}
+          onPress={() =>
+            router.replace({
+              pathname: "/barbershop/[id]/details",
+              params: { id: barbershopId },
+            })
+          }
           className="bg-[#1A1B1F] absolute left-2 top-4 p-2 rounded-xl z-10"
         >
           <ChevronLeft color="white" />
