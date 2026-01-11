@@ -23,7 +23,7 @@ export default function AppointementsCard({
 }: AppointementsCardProps) {
   return (
     <View
-      className={`bg-[#1E1E26] rounded-xl p-4 mb-4 flex-row justify-between items-center w-full ${
+      className={`bg-[#1E1E26] rounded-xl p-4 mb-4 flex-row justify-between items-center ${
         className ?? ""
       }`}
     >
