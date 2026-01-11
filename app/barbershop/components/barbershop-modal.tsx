@@ -124,8 +124,8 @@ export default function BarbershopModal({
 
       Toast.show({
         type: "success",
-        text1: "Barbershop criada 🎉",
-        text2: "Sua barbearia foi adicionada com sucesso",
+        text1: "Barbershop created 🎉",
+        text2: "Your barbershop was successfully created",
         position: "top",
       });
 
