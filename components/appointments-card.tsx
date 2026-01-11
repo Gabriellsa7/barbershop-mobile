@@ -9,6 +9,7 @@ interface AppointementsCardProps {
   avatarUrl?: string | null;
   date: Date | any;
   startTime?: string;
+  className?: string;
 }
 
 export default function AppointementsCard({
@@ -18,9 +19,14 @@ export default function AppointementsCard({
   avatarUrl,
   date,
   startTime,
+  className,
 }: AppointementsCardProps) {
   return (
-    <View className="bg-[#1E1E26] rounded-xl p-4 mb-4 flex-row justify-between items-center w-[330px]">
+    <View
+      className={`bg-[#1E1E26] rounded-xl p-4 mb-4 flex-row justify-between items-center w-full ${
+        className ?? ""
+      }`}
+    >
       <View className="gap-3">
         <View className="bg-[#251f42] rounded-full p-1 items-center w-20">
           <Text className="text-[#8162FF] font-bold">{status}</Text>

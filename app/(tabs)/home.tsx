@@ -108,6 +108,7 @@ export default function Home() {
                         : "Serviço não informado"
                     }
                     status={appointment.status}
+                    className="w-[330px]"
                   />
                 );
               })
