@@ -26,40 +26,29 @@ export default function BarbershopServices({ barbershopId }: Props) {
     refreshTrigger
   );
   const [isOwner, setIsOwner] = useState(false);
-  const [listBarbershop, setListBarbershop] = useState<Barbershop[]>([]);
-
-  const router = useRouter();
-
-  console.log(listBarbershop);
 
   const { user } = useAuth();
+  const router = useRouter();
 
   const BASE_URL = "http://192.168.0.17:3001";
 
-  const fetchBarbershops = useCallback(async () => {
+  // --- Checa se o usuário é owner ---
+  const fetchOwnerStatus = useCallback(async () => {
     if (!user) return;
-    try {
-      const ownerRes = await fetch(
-        `${BASE_URL}/api/barbershop/owner/${user.id}`
-      );
-      const ownerList: Barbershop[] = await ownerRes.json();
 
-      if (ownerList.length > 0) {
-        setListBarbershop(ownerList);
-        setIsOwner(true);
-      } else {
-        const allRes = await fetch(`${BASE_URL}/api/barbershop`);
-        const allList: Barbershop[] = await allRes.json();
-        setListBarbershop(allList);
-        setIsOwner(false);
-      }
+    try {
+      const res = await fetch(`${BASE_URL}/api/barbershop/owner/${user.id}`);
+      const ownerShops: Barbershop[] = await res.json();
+      setIsOwner(ownerShops.some((shop) => shop.id === barbershopId));
     } catch (error) {
-      console.error("Barbershop Service doesen't found:", error);
+      console.error("Failed to check owner status:", error);
+      setIsOwner(false);
     }
-  }, [user]);
+  }, [user, barbershopId]);
+
   useEffect(() => {
-    fetchBarbershops();
-  }, [fetchBarbershops, refreshTrigger]);
+    fetchOwnerStatus();
+  }, [fetchOwnerStatus, refreshTrigger]);
 
   if (loading) {
     return (
@@ -71,17 +60,9 @@ export default function BarbershopServices({ barbershopId }: Props) {
 
   const isEmpty = !services || services.length === 0;
 
-  const handleModal = () => {
-    if (isOpen) {
-      setIsOpen(false);
-    } else {
-      setIsOpen(true);
-    }
-  };
+  const handleModal = () => setIsOpen((prev) => !prev);
 
-  const handleRefresh = () => {
-    setRefreshTrigger((prev) => prev + 1);
-  };
+  const handleRefresh = () => setRefreshTrigger((prev) => prev + 1);
 
   return (
     <View className="flex-1">
@@ -91,53 +72,58 @@ export default function BarbershopServices({ barbershopId }: Props) {
         ) : (
           <Text className="text-[#838896]">Services</Text>
         )}
-        <View className="justify-center items-center relative">
-          {services &&
-            services.map((service) => (
-              <View
-                key={service.id}
-                className="flex-row items-center justify-center gap-3 p-3 max-w-[80%]"
-              >
-                <Image
-                  aria-label="BarberShoop image"
-                  source={{ uri: service.image_url || undefined }}
-                  className="w-[90px] h-[80px] rounded-xl"
-                  style={{ resizeMode: "cover" }}
-                />
 
-                <View className="gap-4 w-[80%]">
-                  <View className="gap-2">
+        <View className="justify-center items-center relative">
+          {services?.map((service) => (
+            <View
+              key={service.id}
+              className="flex-row items-center justify-center gap-3 p-3 max-w-[80%]"
+            >
+              <Image
+                aria-label="BarberShoop image"
+                source={{ uri: service.image_url || undefined }}
+                className="w-[90px] h-[80px] rounded-xl"
+                style={{ resizeMode: "cover" }}
+              />
+
+              <View className="gap-4 w-[80%]">
+                <View className="gap-2">
+                  <Text className="text-white text-sm font-bold">
+                    {service.name}
+                  </Text>
+                  <Text className="text-[#838896]">{service.description}</Text>
+                </View>
+
+                <View className="flex-row justify-between items-center">
+                  <Text className="text-[#8162FF] font-bold">
+                    R$ {service.price}
+                  </Text>
+
+                  <TouchableOpacity
+                    onPress={() => {
+                      if (isOwner) return;
+                      router.replace({
+                        pathname: "/barbershop/[id]/book-appointment",
+                        params: { barbershopId, id: service.id },
+                      });
+                    }}
+                    disabled={isOwner}
+                    className={`py-3 px-8 rounded-xl ${
+                      isOwner ? "bg-zinc-700" : "bg-[#26272B]"
+                    }`}
+                  >
                     <Text className="text-white text-sm font-bold">
-                      {service.name}
+                      {isOwner ? "See" : "Book Appointment"}
                     </Text>
-                    <Text className="text-[#838896]">
-                      {service.description}
-                    </Text>
-                  </View>
-                  <View className="flex-row justify-between items-center">
-                    <Text className="text-[#8162FF] font-bold">
-                      R$ {service.price}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() =>
-                        router.replace({
-                          pathname: "/barbershop/[id]/book-appointment",
-                          params: { barbershopId, id: service.id },
-                        })
-                      }
-                      className="bg-[#26272B] py-3 px-8 rounded-xl"
-                    >
-                      <Text className="text-white text-sm font-bold">
-                        Book Appointment
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
+                  </TouchableOpacity>
                 </View>
               </View>
-            ))}
+            </View>
+          ))}
         </View>
       </ScrollView>
-      {isOwner ? (
+
+      {isOwner && (
         <View className="w-full px-3 my-3">
           <TouchableOpacity
             className="bg-zinc-800 py-3 rounded-lg items-center fixed"
@@ -148,8 +134,6 @@ export default function BarbershopServices({ barbershopId }: Props) {
             </Text>
           </TouchableOpacity>
         </View>
-      ) : (
-        ""
       )}
 
       {isOpen && (
