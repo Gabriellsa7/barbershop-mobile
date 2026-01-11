@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import Toast from "react-native-toast-message";
 
 interface BarberShopServiceProps {
   HandleModal: () => void;
@@ -127,20 +128,20 @@ export default function BarbershopServiceModal({
         return;
       }
 
-      Alert.alert("Success", "Barbershop service created!", [
-        {
-          text: "OK",
-          onPress: () => {
-            setName("");
-            setDescription("");
-            setPrice(0);
-            setDurationMinutes(0);
-            setImageUri(null);
-            HandleModal();
-            onSuccess && onSuccess();
-          },
-        },
-      ]);
+      Toast.show({
+        type: "success",
+        text1: "Service created 🎉",
+        text2: "Your Service was successfully created",
+        position: "top",
+      });
+
+      setName("");
+      setDescription("");
+      setPrice(0);
+      setDurationMinutes(0);
+      setImageUri(null);
+      HandleModal();
+      onSuccess && onSuccess();
     } catch (err) {
       console.error(err);
       Alert.alert("Error", "Error creating barbershop service.");
