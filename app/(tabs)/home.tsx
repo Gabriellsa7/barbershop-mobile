@@ -5,6 +5,7 @@ import CategoryButton from "@/components/category-button";
 import Header from "@/components/header";
 import { useAuth } from "@/contexts/auth-context";
 import { useDate } from "@/contexts/date-context";
+import { useRouter } from "expo-router";
 import {
   Image,
   ScrollView,
@@ -17,6 +18,8 @@ import {
 export default function Home() {
   const { dataAtual } = useDate();
   const { data: appointmentsData = [] } = useGetAppointmentByUser();
+
+  const router = useRouter();
 
   const { user } = useAuth();
   return (
@@ -85,12 +88,13 @@ export default function Home() {
             contentContainerStyle={{
               gap: 12,
               paddingVertical: 8,
+              paddingRight: 16,
             }}
           >
             {appointmentsData.length === 0 ? (
               <Text className="text-white mt-2">Nenhum agendamento</Text>
             ) : (
-              appointmentsData.map((appointment) => {
+              appointmentsData.slice(0, 3).map((appointment) => {
                 const services = appointment.appointmentservice;
 
                 return (
@@ -113,6 +117,13 @@ export default function Home() {
                 );
               })
             )}
+            <TouchableOpacity
+              onPress={() => router.push("/appointments")}
+              className="w-[60px] h-[60px] rounded-full bg-violet-500 items-center justify-center self-center"
+              activeOpacity={0.8}
+            >
+              <Text className="text-white text-3xl font-bold">+</Text>
+            </TouchableOpacity>
           </ScrollView>
         </View>
         <View className="pb-4">
