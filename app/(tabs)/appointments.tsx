@@ -40,6 +40,11 @@ export default function Appointments() {
               Appointment Day: {formatDate(appointments.date)} at{" "}
               {appointments.startTime}
             </Text>
+            {appointments.appointmentservice.map((item) => (
+              <Text key={item.service.id} className="text-zinc-300 text-sm">
+                • {item.service.name} – R$ {item.service.price.toFixed(2)}
+              </Text>
+            ))}
           </View>
         ))}
       </View>

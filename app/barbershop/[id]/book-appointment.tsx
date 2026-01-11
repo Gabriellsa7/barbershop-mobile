@@ -14,10 +14,13 @@ import { useBarbershop } from "@/hooks/useBarbershop";
 import { useGetBarbershopService } from "@/hooks/useGetBarbershopService";
 
 export default function BookAppointment() {
-  const { barbershopId, id } = useLocalSearchParams<{
-    barbershopId: string;
-    id: string;
-  }>();
+  const params = useLocalSearchParams();
+
+  const barbershopId = Array.isArray(params.barbershopId)
+    ? params.barbershopId[0]
+    : params.barbershopId;
+
+  const serviceId = Array.isArray(params.id) ? params.id[0] : params.id;
 
   const { user, loading: authLoading } = useAuth();
 
@@ -26,7 +29,7 @@ export default function BookAppointment() {
     0
   );
 
-  const service = services?.find((s) => s.id === id);
+  const service = services?.find((s) => s.id === serviceId);
 
   const { data, loading } = useBarbershop(barbershopId);
 
@@ -62,12 +65,16 @@ export default function BookAppointment() {
 
     const endTime = calculateEndTime(selectedTime, service.durationMinutes);
 
+    console.log("SERVICE:", service);
+    console.log("SERVICE ID:", service?.id);
+
     await createAppointment({
       clientId: user.id,
       barbershopId,
       date: selectedDate,
       startTime: selectedTime,
       endTime,
+      serviceIds: [serviceId],
     });
 
     router.back();

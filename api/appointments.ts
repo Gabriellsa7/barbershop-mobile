@@ -6,9 +6,13 @@ export async function createAppointment(data: {
   date: string;
   startTime: string;
   endTime: string;
+  serviceIds: string[];
 }) {
   return baseFetch("/appointment", {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(data),
   });
 }

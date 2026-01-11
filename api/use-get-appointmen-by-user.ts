@@ -25,8 +25,12 @@ export interface Appointment {
   };
 
   appointmentservice: {
-    appointmentId: string;
-    serviceId: string;
+    service: {
+      id: string;
+      name: string;
+      price: number;
+      durationMinutes: number;
+    };
   }[];
 }
 
