@@ -34,7 +34,7 @@ export default function BarbershopServiceModal({
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const BASE_URL = "http://192.168.0.17:3001";
+  const BASE_URL = "http://192.168.0.19:3001";
 
   const pickImage = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();

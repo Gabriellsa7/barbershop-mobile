@@ -30,7 +30,7 @@ export default function BarbershopServices({ barbershopId }: Props) {
   const { user } = useAuth();
   const router = useRouter();
 
-  const BASE_URL = "http://192.168.0.17:3001";
+  const BASE_URL = "http://192.168.0.19:3001";
 
   // --- Checa se o usuário é owner ---
   const fetchOwnerStatus = useCallback(async () => {

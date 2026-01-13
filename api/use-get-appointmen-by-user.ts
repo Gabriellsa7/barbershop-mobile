@@ -41,7 +41,7 @@ export function useGetAppointmentByUser() {
     try {
       setLoading(true);
 
-      const res = await fetch("http://192.168.0.17:3001/api/appointment/me", {
+      const res = await fetch("http://192.168.0.19:3001/api/appointment/me", {
         credentials: "include",
       });
       if (!res.ok) {

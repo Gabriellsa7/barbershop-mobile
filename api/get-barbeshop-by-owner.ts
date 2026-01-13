@@ -1,4 +1,4 @@
-const BASE_URL = "http://192.168.0.17:3001/api";
+const BASE_URL = "http://192.168.0.19:3001/api";
 
 export interface Barbershop {
   id: string;

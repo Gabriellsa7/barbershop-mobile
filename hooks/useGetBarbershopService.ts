@@ -10,7 +10,7 @@ export type BarbershopService = {
   image_url: string;
 };
 
-const url = "http://192.168.0.17:3001/api/service/";
+const url = "http://192.168.0.19:3001/api/service/";
 
 export function useGetBarbershopService(
   barbershopId: string,

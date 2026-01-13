@@ -33,7 +33,7 @@ export default function ListBarbershop({
 
   const { user } = useAuth();
 
-  const BASE_URL = "http://192.168.0.17:3001";
+  const BASE_URL = "http://192.168.0.19:3001";
 
   const fetchBarbershops = useCallback(async () => {
     if (!user) return;
