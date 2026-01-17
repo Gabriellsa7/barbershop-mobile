@@ -122,7 +122,7 @@ export default function EditProfileModal({
           onPress: () => {
             updateUser({
               name,
-              imageUrl: finalImageUrl ?? user.imageUrl,
+              image_url: finalImageUrl ?? user.image_url,
             });
 
             setName("");

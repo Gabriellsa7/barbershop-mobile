@@ -31,7 +31,7 @@ export default function Profile() {
           <ProfileHeader />
           <View className="items-center justify-center my-4 gap-5">
             <ProfileAvatar
-              uri={user?.imageUrl ?? null}
+              uri={user?.image_url ?? null}
               name={user?.name ?? ""}
             />
             <View className="items-center gap-2">
