@@ -1,9 +1,10 @@
 import { getDay } from "@/api/get-day";
 import { getMonthName } from "@/api/get-month-name";
 import { Image, Text, View } from "react-native";
+import { AppointmentStatus } from "../config/entities/appointments/appointments.types";
 
 interface AppointementsCardProps {
-  status: any;
+  status: AppointmentStatus;
   service: string;
   name: string;
   avatarUrl?: string | null;
@@ -21,6 +22,24 @@ export default function AppointementsCard({
   startTime,
   className,
 }: AppointementsCardProps) {
+  const bgClass =
+    status === "PENDING"
+      ? "bg-yellow-500/50"
+      : status === "CONFIRMED"
+        ? "bg-green-500/50"
+        : status === "DONE"
+          ? "bg-blue-500/50"
+          : "bg-red-500/50";
+
+  const textClass =
+    status === "PENDING"
+      ? "text-yellow-300"
+      : status === "CONFIRMED"
+        ? "text-green-300"
+        : status === "DONE"
+          ? "text-blue-300"
+          : "text-red-300";
+
   return (
     <View
       className={`bg-[#1E1E26] rounded-xl p-4 mb-4 flex-row justify-between items-center ${
@@ -28,8 +47,8 @@ export default function AppointementsCard({
       }`}
     >
       <View className="gap-3">
-        <View className="bg-[#251f42] rounded-full p-1 items-center w-24">
-          <Text className="text-[#8162FF] font-bold">{status}</Text>
+        <View className={`rounded-full p-1 items-center w-24 ${bgClass}`}>
+          <Text className={`font-bold text-sm ${textClass}`}>{status}</Text>
         </View>
         <Text className="text-white font-bold text-xl">{service}</Text>
         <View className="flex-row items-center gap-2">
