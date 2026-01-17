@@ -1,12 +1,15 @@
+import { useGetAppointmentByUser } from "@/api/use-get-appointmen-by-user";
 import Background from "@/components/background";
+import { useAuth } from "@/contexts/auth-context";
 import { useState } from "react";
-import { Modal, Text, TouchableOpacity, View } from "react-native";
+import { Modal, RefreshControl, ScrollView, View } from "react-native";
 import BarbershopModal from "../barbershop/components/barbershop-modal";
 import ListBarbershop from "../barbershop/components/list-barbershop";
 
 export default function Barbershop() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const { user } = useAuth();
 
   const handleModal = () => {
     if (isModalOpen) {
@@ -20,26 +23,21 @@ export default function Barbershop() {
     setRefreshTrigger((prev) => prev + 1);
   };
 
+  const { loading, refetch } = useGetAppointmentByUser(user?.id || "");
+
   return (
-    <>
-      <Background>
+    <Background>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={refetch} />
+        }
+      >
         <View className="flex-1 ">
           <View className="flex-1">
             <ListBarbershop refreshTrigger={refreshTrigger} />
           </View>
-          <View className="mx-4">
-            <TouchableOpacity
-              className="bg-zinc-800 mb-3 py-3 rounded-lg items-center"
-              onPress={handleModal}
-            >
-              <Text className="text-center text-white text-sm font-medium">
-                Add BarberShop
-              </Text>
-            </TouchableOpacity>
-          </View>
         </View>
-      </Background>
-
+      </ScrollView>
       {isModalOpen && (
         <Modal
           transparent={true}
@@ -53,6 +51,6 @@ export default function Barbershop() {
           />
         </Modal>
       )}
-    </>
+    </Background>
   );
 }
