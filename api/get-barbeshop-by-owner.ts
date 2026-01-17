@@ -1,4 +1,4 @@
-const BASE_URL = "http://192.168.0.19:3001/api";
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export interface Barbershop {
   id: string;
@@ -8,7 +8,7 @@ export interface Barbershop {
 }
 
 export async function getBarbershopsByOwner(
-  ownerId: string
+  ownerId: string,
 ): Promise<Barbershop[]> {
   try {
     const response = await fetch(`${BASE_URL}/barbershop/owner/${ownerId}`);

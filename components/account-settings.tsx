@@ -1,3 +1,4 @@
+import { Button } from "@react-navigation/elements";
 import {
   Ban,
   Bell,
@@ -5,9 +6,21 @@ import {
   CircleUserRound,
   CreditCard,
 } from "lucide-react-native";
-import { Text, View } from "react-native";
+import { Alert, Linking, Text, View } from "react-native";
 
 export default function AccountSettings() {
+  const openManagerPanel = async () => {
+    const url = "http://192.168.0.19:3000/login";
+
+    const supported = await Linking.canOpenURL(url);
+
+    if (!supported) {
+      Alert.alert("Erro", "Não foi possível abrir o painel");
+      return;
+    }
+
+    await Linking.openURL(url);
+  };
   return (
     <View className=" mt-5 gap-4">
       <Text className="text-white">Account Settings</Text>
@@ -35,7 +48,9 @@ export default function AccountSettings() {
       <View className="flex-row items-center justify-between bg-[#26272B] p-3 rounded-xl">
         <View className="flex-row items-center gap-4">
           <Ban color="white" size={27} />
-          <Text className="text-white">Other</Text>
+          <Text className="text-white">
+            <Button onPress={openManagerPanel}>Abrir painel web</Button>
+          </Text>
         </View>
         <ChevronRight color="white" size={20} />
       </View>

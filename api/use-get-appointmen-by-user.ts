@@ -41,9 +41,12 @@ export function useGetAppointmentByUser() {
     try {
       setLoading(true);
 
-      const res = await fetch("http://192.168.0.19:3001/api/appointment/me", {
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${process.env.EXPO_PUBLIC_API_URL}/appointment/me`,
+        {
+          credentials: "include",
+        },
+      );
       if (!res.ok) {
         setData([]);
         return;
@@ -65,7 +68,7 @@ export function useGetAppointmentByUser() {
   useFocusEffect(
     useCallback(() => {
       fetchAppointments();
-    }, [])
+    }, []),
   );
 
   return { data, loading };

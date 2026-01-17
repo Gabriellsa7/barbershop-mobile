@@ -17,7 +17,7 @@ export function useBarbershop(id: string) {
     async function fetchBarbershop() {
       try {
         const res = await fetch(
-          `http://192.168.0.19:3001/api/barbershop/${id}`
+          `${process.env.EXPO_PUBLIC_API_URL}/barbershop/${id}`,
         );
         const json = await res.json();
         setData(json);

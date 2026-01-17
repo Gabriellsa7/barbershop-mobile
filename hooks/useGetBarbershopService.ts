@@ -10,11 +10,11 @@ export type BarbershopService = {
   image_url: string;
 };
 
-const url = "http://192.168.0.19:3001/api/service/";
+const url = `${process.env.EXPO_PUBLIC_API_URL}/service/`;
 
 export function useGetBarbershopService(
   barbershopId: string,
-  refreshTrigger: number
+  refreshTrigger: number,
 ) {
   const [data, setData] = useState<BarbershopService[] | null>(null);
   const [loading, setLoading] = useState(true);
