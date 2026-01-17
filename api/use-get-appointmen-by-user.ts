@@ -71,5 +71,5 @@ export function useGetAppointmentByUser(userId: string) {
     }, [fetchAppointments]),
   );
 
-  return { data, loading };
+  return { data, loading, refetch: fetchAppointments };
 }

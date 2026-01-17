@@ -3,13 +3,15 @@ import AppointementsCard from "@/components/appointments-card";
 import Background from "@/components/background";
 import Title from "@/components/title";
 import { useAuth } from "@/contexts/auth-context";
-import { ScrollView, Text, View } from "react-native";
+import { RefreshControl, ScrollView, Text, View } from "react-native";
 
 export default function Appointments() {
   const { user } = useAuth();
-  const { data: appointmentsData, loading } = useGetAppointmentByUser(
-    user?.id || "",
-  );
+  const {
+    data: appointmentsData,
+    loading,
+    refetch,
+  } = useGetAppointmentByUser(user?.id || "");
 
   if (loading) {
     return (
@@ -30,7 +32,11 @@ export default function Appointments() {
   }
   return (
     <Background>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={refetch} />
+        }
+      >
         <View className="items-center justify-center gap-5 p-5">
           <Title>Appointments</Title>
           {appointmentsData.length === 0 ? (
