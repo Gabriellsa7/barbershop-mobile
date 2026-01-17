@@ -18,11 +18,13 @@ import {
 
 export default function Home() {
   const { dataAtual } = useDate();
-  const { data: appointmentsData = [] } = useGetAppointmentByUser();
+  const { user } = useAuth();
+  const { data: appointmentsData = [] } = useGetAppointmentByUser(
+    user?.id || "",
+  );
 
   const router = useRouter();
 
-  const { user } = useAuth();
   return (
     <Background>
       <Header />

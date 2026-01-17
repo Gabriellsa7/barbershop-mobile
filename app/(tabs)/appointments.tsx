@@ -2,10 +2,14 @@ import { useGetAppointmentByUser } from "@/api/use-get-appointmen-by-user";
 import AppointementsCard from "@/components/appointments-card";
 import Background from "@/components/background";
 import Title from "@/components/title";
+import { useAuth } from "@/contexts/auth-context";
 import { ScrollView, Text, View } from "react-native";
 
 export default function Appointments() {
-  const { data: appointmentsData, loading } = useGetAppointmentByUser();
+  const { user } = useAuth();
+  const { data: appointmentsData, loading } = useGetAppointmentByUser(
+    user?.id || "",
+  );
 
   if (loading) {
     return (

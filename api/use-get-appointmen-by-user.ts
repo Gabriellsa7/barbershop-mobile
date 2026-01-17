@@ -33,37 +33,42 @@ export interface Appointment {
   }[];
 }
 
-export function useGetAppointmentByUser() {
+export function useGetAppointmentByUser(userId: string) {
   const [data, setData] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchAppointments = async () => {
+  const fetchAppointments = useCallback(async () => {
+    if (!userId) {
+      setData([]);
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
 
-      const res = await fetch("http://192.168.0.19:3001/api/appointment/me");
+      const res = await fetch(
+        `http://192.168.0.19:3001/api/appointment/user/${userId}`,
+      );
+
       if (!res.ok) {
         setData([]);
         return;
       }
 
       const json = await res.json();
-      if (Array.isArray(json)) {
-        setData(json);
-      } else {
-        setData([]);
-      }
+      setData(Array.isArray(json) ? json : []);
     } catch {
       setData([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId]);
 
   useFocusEffect(
     useCallback(() => {
       fetchAppointments();
-    }, []),
+    }, [fetchAppointments]),
   );
 
   return { data, loading };
