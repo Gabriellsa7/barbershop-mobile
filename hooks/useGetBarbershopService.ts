@@ -10,7 +10,7 @@ export type BarbershopService = {
   image_url: string;
 };
 
-const url = `${process.env.EXPO_PUBLIC_API_URL}/service/`;
+const url = "http://192.168.0.19:3001/api/service/";
 
 export function useGetBarbershopService(
   barbershopId: string,

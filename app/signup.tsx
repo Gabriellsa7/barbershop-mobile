@@ -22,7 +22,7 @@ export default function Signup() {
 
   const handleSignup = async () => {
     try {
-      const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/users`, {
+      const response = await fetch("http://192.168.0.19:3001/api/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

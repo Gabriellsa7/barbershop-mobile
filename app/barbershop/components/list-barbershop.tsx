@@ -22,6 +22,8 @@ interface ListBarbershopProps {
   refreshTrigger?: number;
 }
 
+const BASE_URL = "http://192.168.0.19:3001";
+
 export default function ListBarbershop({
   refreshTrigger,
 }: ListBarbershopProps) {
@@ -32,8 +34,6 @@ export default function ListBarbershop({
   const router = useRouter();
 
   const { user } = useAuth();
-
-  const BASE_URL = "http://192.168.0.19:3001";
 
   const fetchBarbershops = useCallback(async () => {
     if (!user) return;

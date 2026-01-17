@@ -1,4 +1,4 @@
-const BASE_URL = process.env.EXPO_PUBLIC_API_URL;
+const BASE_URL = "http://192.168.0.19:3001/api";
 
 export async function baseFetch(input: string, init?: RequestInit) {
   const response = await fetch(`${BASE_URL}${input}`, {
