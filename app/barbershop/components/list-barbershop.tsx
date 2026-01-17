@@ -41,7 +41,7 @@ export default function ListBarbershop({
     setLoading(true);
     try {
       const ownerRes = await fetch(
-        `${BASE_URL}/api/barbershop/owner/${user.id}`
+        `${BASE_URL}/api/barbershop/owner/${user.id}`,
       );
       const ownerList: Barbershop[] = await ownerRes.json();
 
@@ -76,7 +76,7 @@ export default function ListBarbershop({
   return (
     <ScrollView className="px-4">
       <Text className="text-white text-2xl font-bold mb-4 mt-6 text-center">
-        Barbearias Disponíveis
+        Barbershops Available
       </Text>
 
       <View className="flex-row flex-wrap ">
@@ -132,7 +132,7 @@ export default function ListBarbershop({
                 }
               >
                 <Text className="text-center text-white text-sm font-medium">
-                  {isOwner ? "See" : "Reservar"}
+                  {isOwner ? "See" : "See Details"}
                 </Text>
               </TouchableOpacity>
             </View>
