@@ -28,7 +28,7 @@ export default function AppointementsCard({
       }`}
     >
       <View className="gap-3">
-        <View className="bg-[#251f42] rounded-full p-1 items-center w-20">
+        <View className="bg-[#251f42] rounded-full p-1 items-center w-24">
           <Text className="text-[#8162FF] font-bold">{status}</Text>
         </View>
         <Text className="text-white font-bold text-xl">{service}</Text>
