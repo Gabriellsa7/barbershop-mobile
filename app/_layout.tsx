@@ -13,8 +13,6 @@ export default function RootLayout() {
         <DateProvider>
           <>
             <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="signin" options={{ title: "Signin" }} />
-              <Stack.Screen name="signup" options={{ title: "Signup" }} />
               <Stack.Screen name="(tabs)" />
             </Stack>
 
