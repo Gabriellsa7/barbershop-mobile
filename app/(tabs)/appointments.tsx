@@ -3,6 +3,7 @@ import AppointementsCard from "@/components/appointments-card";
 import Background from "@/components/background";
 import Title from "@/components/title";
 import { useAuth } from "@/contexts/auth-context";
+import { Link } from "expo-router";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
 
 export default function Appointments() {
@@ -38,7 +39,19 @@ export default function Appointments() {
         }
       >
         <View className="items-center justify-center gap-5 p-5">
-          <Title>Appointments</Title>
+          <View>
+            <Title>Appointments</Title>
+            <Link
+              href={{
+                pathname: "/appointments/appointment-history",
+              }}
+              asChild
+            >
+              <Text className="text-center text-white text-sm font-medium">
+                See History
+              </Text>
+            </Link>
+          </View>
           {appointmentsData.length === 0 ? (
             <Text className="text-white mt-2">Nenhum agendamento</Text>
           ) : (
