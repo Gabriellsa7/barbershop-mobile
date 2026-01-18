@@ -5,6 +5,7 @@ import Title from "@/components/title";
 import { useAuth } from "@/contexts/auth-context";
 import { useRouter } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
+import { useState } from "react";
 import {
   RefreshControl,
   ScrollView,
@@ -20,6 +21,13 @@ export default function AppointmentHistory() {
     loading,
     refetch,
   } = useGetAppointmentByUser(user?.id || "");
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
   const router = useRouter();
 
   const handleBack = () => {
@@ -47,7 +55,7 @@ export default function AppointmentHistory() {
     <Background>
       <ScrollView
         refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={refetch} />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
         <View className="items-center justify-center gap-5 p-5">
