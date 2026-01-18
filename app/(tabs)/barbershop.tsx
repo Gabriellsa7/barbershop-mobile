@@ -10,6 +10,13 @@ export default function Barbershop() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const { user } = useAuth();
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
 
   const handleModal = () => {
     if (isModalOpen) {
@@ -23,13 +30,13 @@ export default function Barbershop() {
     setRefreshTrigger((prev) => prev + 1);
   };
 
-  const { loading, refetch } = useGetAppointmentByUser(user?.id || "");
+  const { refetch } = useGetAppointmentByUser(user?.id || "");
 
   return (
     <Background>
       <ScrollView
         refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={refetch} />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
         <View className="flex-1 ">

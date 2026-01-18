@@ -4,15 +4,23 @@ import Background from "@/components/background";
 import Title from "@/components/title";
 import { useAuth } from "@/contexts/auth-context";
 import { Link } from "expo-router";
+import { useState } from "react";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
 
 export default function Appointments() {
+  const [refreshing, setRefreshing] = useState(false);
   const { user } = useAuth();
   const {
     data: appointmentsData,
     loading,
     refetch,
   } = useGetAppointmentByUser(user?.id || "");
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
 
   if (loading) {
     return (
@@ -35,7 +43,7 @@ export default function Appointments() {
     <Background>
       <ScrollView
         refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={refetch} />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
         <View className="items-center justify-center gap-5 p-5">
