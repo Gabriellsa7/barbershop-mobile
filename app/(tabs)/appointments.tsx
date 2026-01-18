@@ -39,7 +39,7 @@ export default function Appointments() {
         }
       >
         <View className="items-center justify-center gap-5 p-5">
-          <View>
+          <View className="flex-row items-center w-full justify-between">
             <Title>Appointments</Title>
             <Link
               href={{
@@ -47,7 +47,7 @@ export default function Appointments() {
               }}
               asChild
             >
-              <Text className="text-center text-white text-sm font-medium">
+              <Text className="text-end text-[#8162FF] text-sm font-medium">
                 See History
               </Text>
             </Link>
