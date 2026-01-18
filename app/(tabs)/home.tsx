@@ -65,7 +65,8 @@ export default function Home() {
             <View className="relative w-full items-center">
               <TextInput
                 placeholder="Search for a barber"
-                className="bg-[#1A1B1F] rounded-xl py-3 px-4 w-full placeholder:text-white"
+                placeholderTextColor="#9CA3AF"
+                className="bg-[#1A1B1F] rounded-xl py-3 px-4 w-full text-white "
                 value={search}
                 onChangeText={setSearch}
               />
