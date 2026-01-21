@@ -8,6 +8,7 @@ import { createAppointment } from "@/api/appointments";
 import { AppointmentCalendar } from "@/components/appointments/calendar";
 import { AppointmentSummary } from "@/components/appointments/summary";
 import { TimeSlots } from "@/components/appointments/time-slots";
+import Title from "@/components/title";
 import { useAuth } from "@/contexts/auth-context";
 import { calculateEndTime } from "@/hooks/calculate-end-time";
 import { useBarbershop } from "@/hooks/useBarbershop";
@@ -26,7 +27,7 @@ export default function BookAppointment() {
 
   const { data: services, loading: servicesLoading } = useGetBarbershopService(
     barbershopId,
-    0
+    0,
   );
 
   const service = services?.find((s) => s.id === serviceId);
@@ -35,7 +36,7 @@ export default function BookAppointment() {
 
   const router = useRouter();
 
-  const [selectedDate, setSelectedDate] = useState<string>("2026-02-06");
+  const [selectedDate, setSelectedDate] = useState<string>("");
   const [selectedTime, setSelectedTime] = useState<string>("");
 
   const availableTimes = ["09:00", "09:45", "10:30", "11:15"];
@@ -86,6 +87,8 @@ export default function BookAppointment() {
     });
   };
 
+  const today = new Date().toISOString().split("T")[0];
+
   return (
     <Background>
       <View className="relative">
@@ -103,11 +106,12 @@ export default function BookAppointment() {
       </View>
 
       <View className="mt-20 px-4">
-        <Text className="text-white text-lg mb-4">Fazer Reserva</Text>
+        <Title>Fazer Reserva</Title>
 
         <AppointmentCalendar
           selectedDate={selectedDate}
           onSelect={setSelectedDate}
+          minDate={today}
         />
 
         <TimeSlots

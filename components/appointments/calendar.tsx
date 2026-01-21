@@ -11,11 +11,13 @@ import Animated, {
 interface AppointmentCalendarProps {
   selectedDate: string;
   onSelect: (date: string) => void;
+  minDate: string;
 }
 
 export function AppointmentCalendar({
   selectedDate,
   onSelect,
+  minDate,
 }: AppointmentCalendarProps) {
   const scale = useSharedValue(1);
 
@@ -31,6 +33,7 @@ export function AppointmentCalendar({
         style={styles.gradient}
       >
         <Calendar
+          minDate={minDate}
           onDayPress={(day) => onSelect(day.dateString)}
           markedDates={{
             [selectedDate]: {
