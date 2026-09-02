@@ -54,7 +54,9 @@
         {
           "photosPermission": "O app precisa de acesso às suas fotos para selecionar imagens."
         }
-      ]
+      ],
+      "expo-font",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
