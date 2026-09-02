@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/logoheadernew.png" alt="FlowCut Barber" width="320" />
+  <img src="./assets/Logo.png" alt="FlowCut Barber" width="320" />
 </p>
 
 <h1 align="center">FlowCut Barber</h1>
