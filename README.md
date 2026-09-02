@@ -1,50 +1,86 @@
-# Welcome to your Expo app 👋
+<p align="center">
+  <img src="./assets/logoheadernew.png" alt="FlowCut Barber" width="320" />
+</p>
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+<h1 align="center">FlowCut Barber</h1>
 
-## Get started
+<p align="center">
+  Aplicativo mobile para agendamento de serviços em barbearias, construído com <a href="https://expo.dev">Expo</a> e React Native.
+</p>
 
-1. Install dependencies
+## Sobre o projeto
 
-   ```bash
-   npm install
-   ```
+O **FlowCut Barber** é um app mobile (Android, iOS e Web) que conecta clientes a barbearias, permitindo buscar estabelecimentos, visualizar serviços e horários disponíveis, e agendar cortes e outros serviços diretamente pelo celular.
 
-2. Start the app
+### Principais funcionalidades
 
-   ```bash
-   npx expo start
-   ```
+- 🔐 Autenticação de usuário (login e cadastro)
+- 💈 Listagem e busca de barbearias
+- 🗓️ Agendamento de horários com seleção de serviços
+- 📖 Histórico de agendamentos do cliente
+- 👤 Perfil do usuário, com edição de dados e foto
 
-In the output, you'll find options to open the app in a
+## Tecnologias
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- [Expo](https://expo.dev) / [React Native](https://reactnative.dev)
+- [Expo Router](https://docs.expo.dev/router/introduction/) (roteamento por arquivos)
+- [TypeScript](https://www.typescriptlang.org/)
+- [NativeWind](https://www.nativewind.dev/) (Tailwind CSS para React Native)
+- [React Navigation](https://reactnavigation.org/)
+- [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/) & [Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/)
+- [React Native Calendars](https://github.com/wix/react-native-calendars)
+- [date-fns](https://date-fns.org/)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Estrutura do projeto
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+app/                # Rotas (Expo Router)
+  (tabs)/            # Navegação por abas: home, barbearias, agendamentos, perfil
+  barbershop/         # Detalhes e agendamento de uma barbearia específica
+  appointments/        # Histórico de agendamentos
+api/                # Chamadas HTTP para o backend
+components/          # Componentes reutilizáveis de UI
+contexts/            # Contextos globais (autenticação, data selecionada)
+config/entities/      # Tipos de domínio (usuário, barbearia, agendamento, pagamento...)
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Como rodar o projeto
 
-## Learn more
+1. Instale as dependências
 
-To learn more about developing your project with Expo, look at the following resources:
+   ```bash
+   yarn install
+   ```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+2. Inicie o app
 
-## Join the community
+   ```bash
+   yarn start
+   ```
 
-Join our community of developers creating universal apps.
+No terminal, você poderá abrir o app em:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- Emulador Android (`yarn android`)
+- Simulador iOS (`yarn ios`)
+- Navegador (`yarn web`)
+- [Expo Go](https://expo.dev/go)
+
+> O app consome uma API própria (ver `api/baseFetch.ts`); certifique-se de que o backend esteja rodando e acessível no endereço configurado.
+
+## Scripts disponíveis
+
+| Comando               | Descrição                          |
+| ---------------------- | ----------------------------------- |
+| `yarn start`            | Inicia o Metro bundler / Expo       |
+| `yarn android`          | Roda o app em um emulador/dispositivo Android |
+| `yarn ios`              | Roda o app em um simulador/dispositivo iOS |
+| `yarn web`              | Roda o app no navegador             |
+| `yarn lint`             | Executa o linter (ESLint)           |
+| `yarn reset-project`    | Reseta o projeto para um estado inicial em branco |
+
+## Saiba mais
+
+- [Documentação do Expo](https://docs.expo.dev/)
+- [Documentação do Expo Router](https://docs.expo.dev/router/introduction/)
+- [Documentação do NativeWind](https://www.nativewind.dev/)
